@@ -2,6 +2,7 @@ package com.example.BrainTumorDetectionBackEnd.Controller;
 
 import com.example.BrainTumorDetectionBackEnd.DTO.RequestDTO.LoginDTO;
 import com.example.BrainTumorDetectionBackEnd.DTO.RequestDTO.RegisterDTO;
+import com.example.BrainTumorDetectionBackEnd.DTO.ResponseDTO.LoginResponseDTO;
 import com.example.BrainTumorDetectionBackEnd.Service.RegisterLoginService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -20,7 +21,7 @@ public class RegisterLoginController {
     }
     @PostMapping("/login")
     @ResponseStatus(HttpStatus.CREATED)
-    public void loginDetails(@RequestBody LoginDTO loginDTO){
-        registerLoginService.login(loginDTO);
+    public LoginResponseDTO loginDetails(@RequestBody LoginDTO loginDTO){
+        return registerLoginService.login(loginDTO);
     }
 }
