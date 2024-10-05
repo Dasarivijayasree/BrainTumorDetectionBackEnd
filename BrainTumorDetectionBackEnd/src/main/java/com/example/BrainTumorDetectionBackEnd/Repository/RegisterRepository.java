@@ -10,5 +10,12 @@ public interface RegisterRepository extends MongoRepository<Register, String> {
             "{ $match: { 'userName': ?0, 'password': ?1 } }",
             "{ $count: 'matchingDocuments' }"
     })
+
     Integer findDetails(String username, String password);
+
+    @Aggregation(pipeline = {
+            "{$match:{'email':?0} }",
+            "{ $count: 'matchingDocuments' }"
+    })
+    Integer userFound(String email);
 }

@@ -16,10 +16,29 @@ public class RegisterLoginService {
     private RegisterRepository registerRepository;
     @Autowired
     private LoginRepository loginRepository;
-    public void register(RegisterDTO registerDTO){
+    public LoginResponseDTO register(RegisterDTO registerDTO){
         Register reg=new Register(registerDTO.getFisrtName(), registerDTO.getLastName(), registerDTO.getEmail(), registerDTO.getUserName(), registerDTO.getPassword());
-        registerRepository.save(reg);
+        String email=registerDTO.getEmail();
+        Integer count=registerRepository.userFound(email);
+        LoginResponseDTO loginResponseDTO = new LoginResponseDTO();
+        if(count==null){
+            loginResponseDTO = new LoginResponseDTO();
+            loginResponseDTO.setStatus(100);
+            loginResponseDTO.setMessage("Successfully registered");
+        }
+        else if(count==1){
+            loginResponseDTO=new LoginResponseDTO();
+            loginResponseDTO.setStatus(404);
+            loginResponseDTO.setMessage("Already have an account");
+        }
+        else {
+            loginResponseDTO = new LoginResponseDTO();
+            loginResponseDTO.setStatus(404);
+            loginResponseDTO.setMessage("Already have an account");
+        }
+        return loginResponseDTO;
     }
+
     public LoginResponseDTO login(LoginDTO loginDTO){
         LoginResponseDTO loginResponseDTO;
         String username=loginDTO.getUserName();
@@ -42,5 +61,8 @@ public class RegisterLoginService {
         }
         return loginResponseDTO;
     }
+
+
+
 }
 
